@@ -24,22 +24,38 @@ class UI {
                     <strong>Product Price</strong>: ${p.price}
                     <strong>Product Year</strong>: ${p.year}
                 </div>
-                <a href="" class="btn btn-danger" name="delete">Delete</a>
+                <a href="#" class="btn btn-danger" name="delete">Delete</a>
             </div>
         `;
 
         productList.appendChild(element);
+
+        return 1;
     }
 
-    deleteProduct() {
-
+    deleteProduct(element) {
+        if (element.name == 'delete') {
+            if(confirm("Estas seguro?")){
+            element.parentElement.remove();
+            return 1;
+            }
+        }
     }
 
     resetForm() {
         document.getElementById('product-form').reset();
     }
 
-    showMessage() {
+    showMessage(message, cssClass) {
+        const div = document.createElement('div');
+        div.className = `alert alert-${cssClass}`;
+        div.appendChild(document.createTextNode(message));
+        /* Show in DOM */
+
+        const container = document.querySelector('.container');
+        const app = document.querySelector('#app');
+
+        container.insertBefore(div, app);
 
     }
 }
@@ -57,7 +73,9 @@ document
         const p = new Product(name, price, year);
         const ui = new UI();
 
-        ui.addProduct(p);
+        if(ui.addProduct(p)){
+            ui.showMessage("Element Added", 'success');
+        };
         ui.resetForm();
 
         e.preventDefault();
@@ -65,4 +83,9 @@ document
     
 /* Delete Product */
 document
-    .getElementById("product-form")
+    .getElementById("product-list").addEventListener('click', function(e){
+        const ui = new UI();
+        if(ui.deleteProduct(e.target)){
+            ui.showMessage("Element Deleted", 'danger');
+        }
+    });
