@@ -48,7 +48,7 @@ class UI {
 
     showMessage(message, cssClass) {
         const div = document.createElement('div');
-        div.className = `alert alert-${cssClass}`;
+        div.className = `alert alert-${cssClass} mt-4`;
         div.appendChild(document.createTextNode(message));
         /* Show in DOM */
 
@@ -56,7 +56,9 @@ class UI {
         const app = document.querySelector('#app');
 
         container.insertBefore(div, app);
-
+        setTimeout(function(){
+            document.querySelector('.alert').remove();
+        }, 2000)
     }
 }
 
@@ -89,3 +91,5 @@ document
             ui.showMessage("Element Deleted", 'danger');
         }
     });
+
+/*  */
